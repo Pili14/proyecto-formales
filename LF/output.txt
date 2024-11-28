@@ -1,0 +1,81 @@
+EMAIL: jardonates@gmail.com
+EMAIL: vmilian@uci.cu
+EMAIL: ebril@uci.cu
+EMAIL: rainer@uci.cu
+EMAIL: jardonates@gmail.com
+URL: http://rcci.uci.cu
+DATE: 10/05/2018
+DATE: 29/10/2018
+EMAIL: rcci@uci.cu
+URL: http://rcci.uci.cu
+EMAIL: rcci@uci.cu
+URL: http://rcci.uci.cu
+EMAIL: rcci@uci.cu
+URL: http://rcci.uci.cu
+EMAIL: rcci@uci.cu
+URL: http://rcci.uci.cu
+EMAIL: rcci@uci.cu
+URL: https://es.wikipedia.org/
+URL: http://rcci.uci.cu
+EMAIL: rcci@uci.cu
+URL: http://rcci.uci.cu
+EMAIL: rcci@uci.cu
+URL: http://rcci.uci.cu
+EMAIL: rcci@uci.cu
+URL: http://rcci.uci.cu
+EMAIL: rcci@uci.cu
+URL: http://rcci.uci.cu
+EMAIL: rcci@uci.cu
+URL: http://rcci.uci.cu
+EMAIL: rcci@uci.cu
+URL: http://rcci.uci.cu
+EMAIL: rcci@uci.cu
+URL: http://rcci.uci.cu
+EMAIL: rcci@uci.cu
+NAME: Aguirre, J. TITLE: (2014). Actores, relaciones y estructuras: introduccion al analisis de redes sociales.
+NAME: Analytics, C. TITLE: (2015). Anaconda scientiﬁc python distribution.
+NAME: Beazley, D. NAME: Jones, B. TITLE: (2013). Python Cookbook: Recipes for Mastering Python 3.
+URL: http://rcci.uci.cu
+EMAIL: rcci@uci.cu
+NAME: Carolan, B. TITLE: (2013). Social network analysis and education: Theory, methods & applications.
+NAME: Cherven, K. TITLE: (2015). Mastering Gephi network visualization.
+NAME: Cuvelier, E. NAME: Aufaure, M. TITLE: (2011). Graph mining and communities detection.
+NAME: Ercetin, S. NAME: Neyisci, N. TITLE: (2016). Social network analysis: A brief introduction to the theory.
+NAME: Farooq, A. NAME: Joyia, G. NAME: Uzair, M. NAME: Akram, U. TITLE: (2018). Detection of inﬂuential nodes using social networks
+analysis based on network metrics.
+NAME: Freeman, L. TITLE: (1977). A set of measures of centrality based on betweenness.
+NAME: Freeman, L. TITLE: (1978). Centrality in social networks conceptual clariﬁcation.
+NAME: Gonzalez Duque, R. TITLE: (2014). Python para todos.
+NAME: Hagberg, A. NAME: Schult, D. NAME: Swart, P. TITLE: (2016). Networkx framework.
+NAME: Hagberg, A. NAME: Swart, P. NAME: Chult, D. TITLE: (2008). Exploring network structure, dynamics, and function using
+networkx.
+NAME: Heymann, S. TITLE: (2017). Gephi.
+NAME: Kazienko, P. TITLE: (2012). Social network analysis: Selected methods and applications.
+NAME: Khokhar, D. TITLE: (2015). Gephi cookbook.
+NAME: Kuz, A. NAME: Falco, M. NAME: Giandini, R. TITLE: (2016). Analisis de redes sociales: un caso practico.
+NAME: Lozano, M. NAME: Trujillo Mendoza, H. TITLE: (2016). Optimizacion de
+ataques a redes complejas mediante un algoritmo de colonias de abejas artiﬁciales.
+NAME: Malley, A. NAME: Onnela, J. TITLE: (2017). Introduction to social network analysis.
+URL: http://rcci.uci.cu
+EMAIL: rcci@uci.cu
+NAME: Perez Beltran, J. NAME: Valerio Urena, G. NAME: Aceves, L. TITLE: (2015). Analisis de redes sociales para el
+estudio de la produccion intelectual en grupos de investigacion.
+NAME: Peyro Outeirino, M. TITLE: (2015). Conectados por redes sociales: Introduccion al analisis de redes sociales y casos
+practicos.
+NAME: Rao, B. NAME: Mishra, S. TITLE: (2016). Detection of inﬂuential communities and members in a community graph
+of villages using graph mining techniques.
+NAME: Rao, B. NAME: Mitra, A. TITLE: (2014). A new approach for detection of common communities in a social network using
+graph mining techniques.
+NAME: Riondato, M. NAME: Upfal, E. TITLE: (2018). Abra: Approximating betweenness centrality in static and dynamic graphs
+with rademacher averages.
+NAME: Sabidussi, G. TITLE: (1966). The centrality index of a graph.
+NAME: Tale, S. TITLE: (2017). Python 3: The ultimate beginners guide for python 3 programming.
+NAME: Thorat, A. TITLE: (2017). Detection of inﬂuential communities and members in a community using graph mining
+techniques.
+NAME: Trudeau, R. TITLE: (2013). Introduction to graph theory.
+NAME: Wang, M. NAME: Wang, C. NAME: Yu, J. NAME: Zhang, J. TITLE: (2015).
+Community detection in social networks: an in-
+depth benchmarking study with a procedure-oriented framework.
+NAME: Wasserman, S. NAME: Faust, K. TITLE: (1994). Social network analysis: Methods and applications, volume 8.
+URL: http://rcci.uci.cu
+EMAIL: rcci@uci.cu

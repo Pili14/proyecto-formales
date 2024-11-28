@@ -1,0 +1,598 @@
+Metodo para determinar comunidades de desarrollo y actores
+mas inﬂuyentes en repositorios de sistemas operativos libres
+Method to determining development communities and most
+inﬂuential actors in free software repositories
+Jorge Alejandro Roman Donates1*, Vladimir Milian Nunez2, Eliana Barbara Ril Valentın3,
+Raynel Batista Tellez4
+1Departamento de Programacion Facultad 2, Universidad de las Ciencias Informaticas. Carretera a San
+Antonio de los Banos, Km 2 1/2.Torrens, La Lisa, La Habana, Cuba. jardonates@gmail.com
+2Departamento de Ciencias Basicas Facultad 2, Universidad de las Ciencias Informaticas. Carretera a San
+Antonio de los Banos, Km 2 1/2.Torrens, La Lisa, La Habana, Cuba. vmilian@uci.cu
+3Departamento de Ingenierıa de Software Facultad 2, Universidad de las Ciencias Informaticas. Carretera a
+San Antonio de los Banos, Km 2 1/2.Torrens, La Lisa, La Habana, Cuba. ebril@uci.cu
+4Direccion de Ciencia, Tecnologıa e Innovacion, Universidad de las Ciencias Informaticas. Carretera a San
+Antonio de los Banos, Km 2 1/2.Torrens, La Lisa, La Habana, Cuba. rainer@uci.cu
+∗Autor para correspondencia: jardonates@gmail.com
+Resumen
+Las comunidades de software libre consisten en grupos de usuarios o desarrolladores experimentados que con-
+tribuyen a la mejora del sistema operativo, su contribucion puede verse de forma practica en los repositorios de
+paquetes. El estudio de las interacciones que establecen los desarrolladores de estos paquetes a partir de intere-
+ses comunes, contribuye a identiﬁcar sus comunidades, promueve la colaboracion entre equipos de desarrollo,
+ayuda a determinar los desarrollos crıticos y actores mas inﬂuyentes. El objetivo de esta investigacion es desa-
+rrollar un metodo para determinar comunidades de desarrolladores y actores mas inﬂuyentes en repositorios
+de sistemas operativos libres para fortalecer la colaboracion entre equipos de desarrollo. En la investigacion se
+realizo un estudio sobre conceptos asociados a la teorıa de grafos, analisis de redes colaborativas, deteccion de
+comunidades y medidas de centralidad. Ademas, se describio el procedimiento que sigue el metodo presentado
+y se realizaron pruebas en aras de veriﬁcar la calidad de la solucion. Como resultado ﬁnal se obtuvo un metodo
+que facilito la busqueda de paquetes en repositorios de sistemas operativos libres, la extraccion de los ﬁcheros
+de control de cambios de cada uno de estos, la extraccion de los nombres de paquetes y sus desarrolladores,
+ası como la creacion de una red colaborativa a partir de la relacion entre desarrolladores y otra red con la
+relacion paquete - desarrollador. El trabajo con Gephi permitio a su vez visualizar las redes colaborativas y
+detectar las comunidades y actores mas inﬂuyentes.
+Palabras claves: analisis de redes colaborativas, comunidades, deteccion de comunidades, medidas de cen-
+tralidad, repositorios de sistemas operativos libres
+Abstract
+Communities consist of groups of experienced users or developers who contribute to the improvement of the
+operating system, the contribution of communities can be seen in a practical way in the package repositories.
+45
+Revista Cubana de Ciencias Informáticas 
+Vol. 13, No. 1, Enero-Marzo, 2019
+ISSN: 2227-1899 | RNPS: 2301
+Pág. 45-60
+http://rcci.uci.cu
+Tipo de artículo: Artículo original 
+Temática: Software Libre
+Recibido: 10/05/2018 |  Aceptado: 29/10/2018 
+Grupo Editorial “Ediciones Futuro”
+Universidad de las Ciencias Informaticas. La Habana, Cuba
+rcci@uci.cu
+The study of the interactions that the developers of these packages establish based on common interests, helps
+to identify their communities, promotes collaboration between development teams, and helps to determine the
+critical developments, leaders, experts or most inﬂuential actors. The aim of this research is to develop a method
+for determining communities of developers and more inﬂuential actors in free software repositories. A study was
+carried out on concepts associated with graph theory, collaborative network analysis, algorithms for community
+detection and centrality measurements. In addition, the implementation process of the presented method was
+described and diﬀerent tests were carried out in order to verify the quality of the solution. The ﬁnal result
+was a method that facilitated the search for packages in free software repositories and the extraction of change
+control ﬁles from each of these. The method implemented facilitated the extraction of the names of packages
+and their developers. Gephi Toolkit allowed visualize the detected collaborative networks and distinguish the
+most inﬂuential communities and actors, allowing to strength the collaboration between development teams.
+Keywords: collaborative network analysis, communities, community detection, centrality measures, free soft-
+ware repositories.
+Introduccion
+Es innegable el papel que esta jugando actualmente el software libre en el ambito empresarial, gubernamental,
+academico, cientıﬁco, entre otros. Hace unos pocos anos, se consideraba una rareza y aventurarse en un proyecto
+de codigo abierto (del ingles Open Source) era cuanto menos, bastante arriesgado. En contraste, actualmente
+es muy difıcil encontrar algun proyecto de software donde no exista al menos un componente de codigo abierto.
+Los proyectos de codigo abierto son aquellos en los que el codigo esta disponible libremente para que pueda ser
+accedido y copiado. Estos proyectos se desarrollan a traves de una estructura descentralizada, donde cualquier
+persona capacitada puede enviar/proponer cambios y mejoras al codigo base. Como el software libre se usa
+comunmente en muchos proyectos cerrados, tambien recibe contribuciones de muchas companıas.
+Actualmente, en algunos ambitos y areas, los proyectos de codigo abierto estan desplazando a sus homologos
+privativos. Una de las mayores fortalezas de los proyectos abiertos, es la posibilidad de escalar el producto en
+base a las aportaciones de multiples contribuidores, y que en el caso del software privativo queda reducido
+a los recursos de los que dispone la propia empresa. Es decir, que uno de los factores mas importantes en el
+desarrollo y exito de un proyecto de codigo abierto, corresponde al aporte de las comunidades de desarrollo de
+software.
+El objetivo de una comunidad de desarrollo de software, es aglutinar una serie de individuos cuya intencion
+es promover el acceso y distribucion de una herramienta de software, permitiendo la libertad de uso, estudio,
+copia, modiﬁcacion y redistribucion a todo aquel que lo desee. La cooperacion entre estas personas en todos
+los ambitos de la produccion del software (usuarios, desarrolladores, documentadores, testers, traductores,
+?) permite generar las sinergias necesarias para conseguir una mejora sustancial de la calidad del software,
+46
+Revista Cubana de Ciencias Informáticas 
+Vol. 13, No. 1, Enero-Marzo, 2019
+ISSN: 2227-1899 | RNPS: 2301
+Pág. 45-60
+http://rcci.uci.cu
+Grupo Editorial “Ediciones Futuro”
+Universidad de las Ciencias Informaticas. La Habana, Cuba
+rcci@uci.cu
+ası como de una mayor difusion y sostenibilidad en el tiempo, y primando el beneﬁcio de la sociedad sobre
+cualquier otro.
+El principal resultado de este proceso, es la creacion de un repositorio donde de aplicaciones de software. Un
+repositorio de software, no es mas que un lugar de almacenamiento del cual pueden ser recuperados e instalados
+los paquetes de software en un ordenador. La principal funcion de estos repositorios, es facilitar la integracion
+de codigo de posibles fuentes diferentes a una unidad operativa coherente e independiente.
+En el ambito del software libre, un repositorio puede contener miles de aplicaciones y/o paquetes, en cuyo
+desarrollo colaboran un alto numero de desarrolladores. Tal es el caso del repositorio de Nova, la distribucion
+cubana de GNU/Linux, donde un paquete puede tener uno o varios desarrolladores y un desarrollador colaborar
+en uno o mas paquetes. Segun el centro CESOL1 encargado del desarrollo de Nova, dicha distribucion alcanza
+la cifra de 70 000 paquetes al cierre del 2017, lo cual signiﬁca que un repositorio tambien puede ocupar una
+alta capacidad de almacenamiento e incrementarse al agregar nuevos paquetes y/o renovar otros, ası como
+varias versiones de la distribucion. Esta informacion sugiere que la dimension de las comunidades y el nivel de
+actividad de sus miembros, ejemplo los desarrolladores de paquetes, sea elevada.
+El estudio de las interacciones que establecen los desarrolladores de estos repositorios, a partir de intereses de
+desarrollo comunes, contribuye a identiﬁcar comunidades, promover la colaboracion entre equipos de desarrollo,
+ayudar a determinar los desarrollos crıticos, ası como detectar los actores mas inﬂuyentes (desarrolladores
+lıderes o expertos). Sin embargo, actualmente en los repositorios de los sistemas operativos libres publicados
+en la UCI se accede manualmente a cada paquete para extraer informacion de sus desarrolladores. Esto ademas
+de resultar arduo por el volumen de informacion a procesar, eleva el margen de error, involucra mas recursos,
+compromete los resultados esperados, el tiempo de ejecucion de los analisis y la precision de los datos obtenidos.
+Esto conlleva a que, la realizacion de estos analisis de forma manual pudiera distanciarlos de sus propositos
+originales.
+Teniendo en cuenta el contexto planteado cabrıa preguntarse entonces, ¿como determinar las comunidades de
+desarrolladores y actores mas inﬂuyentes en los repositorios de los sistemas operativos libres para fortalecer
+la colaboracion entre equipos de desarrollo a traves del analisis de redes colaborativas? Partiendo de un
+area determinada de conocimientos cientıﬁcos, el Analisis de redes colaborativas, y el proposito general de
+desarrollar un metodo para determinar comunidades de desarrolladores y actores mas inﬂuyentes en repositorios
+de sistemas operativos libres, con el objetivo de fortalecer la colaboracion entre equipos de desarrollo a traves
+del analisis de redes colaborativas, el presente trabajo se concentro en la aplicacion de metodos de deteccion
+de comunidades y actores mas inﬂuyentes en repositorios de sistemas operativos libres.
+1Centro de Soluciones Libres de la Universidad de las Ciencias Informaticas
+47
+Revista Cubana de Ciencias Informáticas 
+Vol. 13, No. 1, Enero-Marzo, 2019
+ISSN: 2227-1899 | RNPS: 2301
+Pág. 45-60
+http://rcci.uci.cu
+Grupo Editorial “Ediciones Futuro”
+Universidad de las Ciencias Informaticas. La Habana, Cuba
+rcci@uci.cu
+Materiales y metodos o Metodologıa computacional
+Para analizar la colaboracion de desarrolladores, hemos utilizado el concepto de analisis de redes sociales.
+Esto se hace estudiando redes que representan desarrolladores y su colaboracion. Realizar un analisis de redes
+sociales signiﬁca aplicar diferentes metricas a las redes, donde cada medida mire una propiedad especıﬁca de
+las redes. Ejemplos de metricas son la cantidad de desarrolladores con los que un desarrollador especıﬁco ha
+colaborado y las medidas de centralidad que muestran la inﬂuencia que los desarrolladores tienen entre sı.
+Los actores mas inﬂuyentes, son desarrolladores que destacan a partir de las relaciones que presentan con
+respecto a otros dentro de la red colaborativa. El termino de red colaborativa es equivalente a redes sociales
+y se utiliza de esta forma en la investigacion para evitar ser confundido con redes como Facebook, Twitter,
+entre otras.
+Una red colaborativa, se deﬁne como una estructura social compuesta por un conjunto de actores (como in-
+dividuos u organizaciones) y las relaciones entre ellos. La perspectiva de red colaborativa provee un grupo de
+metodos para analizar la estructura de entidades sociales completas, ası como una variedad de teorıas explican-
+do los patrones observados en estas estructuras (Wasserman and Faust, 1994; Kazienko, 2012; Carolan, 2013).
+Tambien puede verse como un conjunto de actores vinculados entre sı. Para modelar y analizar redes colabo-
+rativas se utilizan los grafos. En este contexto los vertices representan a los actores (autores, desarrolladores,
+etc) y las aristas representan las relacionen existentes entre estos.
+En una red colaborativa los actores mas inﬂuyentes pueden identiﬁcarse a traves de las medidas de centralidad
+(Farooq etal., 2018).Segun Lozano etal. (2016) las medidas de centralidad son metricas fundamentales para
+el analisis de redes. Miden como de central e importante es un nodo dentro de la red. En la investigacion se
+trabajaron las medidas de centralidad de grado, cercanıa e intermediacion. La centralidad de grado asume
+que los nodos mas importantes son los que tienen muchas conexiones con otros nodos(Freeman, 1978). Segun
+Kuz etal. (2016) los investigadores de redes sociales miden la actividad en la red usando el concepto de
+centralidad de grado, es decir el numero de conexiones directas que tiene un nodo. Consiste en nodos que,
+independientemente de la cantidad de conexiones, sus aristas permiten llegar a todos los nodos de la red mas
+rapidamente que desde cualquier otro nodo.
+La cercanıa se basa en la medida de proximidad y en su opuesta, la lejanıa (Sabidussi, 1966). Describe mejor la
+centralidad general, ya que los actores (nodos) son valorados por su distancia, medida en pasos hacia los demas
+actores de la red. Un actor tiene gran centralidad cuanto menor sea el numero de pasos que a traves de la red
+debe realizar para relacionarse con el resto (PerezBeltran etal., 2015; Kuz etal., 2016). La centralidad de
+cercanıa asume que los nodos importantes son aquellos que estan a una corta distancia del resto de los nodos
+de la red.
+48
+Revista Cubana de Ciencias Informáticas 
+Vol. 13, No. 1, Enero-Marzo, 2019
+ISSN: 2227-1899 | RNPS: 2301
+Pág. 45-60
+http://rcci.uci.cu
+Grupo Editorial “Ediciones Futuro”
+Universidad de las Ciencias Informaticas. La Habana, Cuba
+rcci@uci.cu
+Por ultimo se trabajo con la centralidad de intermediacion que mide la importancia de un elemento de un
+grafo, ya sea un nodo o una arista, por la fraccion de los caminos mas cortos que pasan a traves de el (Freeman,
+1977, 1978). La centralidad de intermediacion es una medida de centralidad muy popular que, informalmente,
+deﬁne la importancia de un nodo o borde en la red como proporcional a la fraccion de rutas mas cortas en
+la red que pasan por el (Riondato and Upfal, 2018). La centralidad de intermediacion asume que los nodos
+importantes en la red son aquellos que conectan otros nodos.
+Para el desarrollo del metodo propuesto, se decidio usar Python 3.5 para realizar la implementacion del
+metodo, ya que sobresale en la manipulacion de datos y la programacion de red por la cantidad de librerıas
+que contiene y que facilitan el trabajo de los desarrolladores (Summerﬁeld, 2010; Beazley and Jones, 2013;
+GonzalezDuque, 2014; Tale, 2017). Para la gestion, instalacion y conﬁguracion de Python y sus modulos,
+fue utilizada la plataforma Anaconda (Analytics, 2015). Para la extraccion y creacion de la redes se utiliza
+el modulo Networkx, el cual brinda una serie de funcionalidades que facilita el proceso de creacion de redes
+(Hagberg etal., 2008, 2016).
+Para la representacion de la red obtenida se utilizo Gephi en su version 0.9.2 por ser ideal para visualizaciones
+basicas de la red por la alta calidad que presentan sus resultados (Khokhar, 2015; Cherven, 2015; Heymann,
+2017). Para el analisis de redes se utilizo la teorıa de grafos ya que los grafos son estructuras que constan
+de dos partes, el conjunto de vertices o nodos y el conjunto de aristas o bordes, que pueden ser orientados
+o no. Por lo tanto, tambien es conocida dicha teorıa como analisis de redes (Trudeau, 2013; Aguirre, 2014;
+PeyroOuteirino, 2015; Ercetin and Neyisci, 2016; O’Malley and Onnela, 2017). Ademas, para realizar las
+pruebas unitarias automaticamente en el lenguaje de programacion Python se utilizo el modulo“unittest”.
+La deteccion de comunidades en la red colaborativa se realizo empleando un algoritmo para este ﬁn, especıﬁ-
+camente el algoritmo que implementado en Gephi en su version 0.9.2. Algunos algoritmos existentes para este
+proposito son Kernighan-Lin (KL), algoritmos aglomerativos/divisivos, algoritmos espectrales y particion de
+Grafos Multi-nivel (Cuvelier and Aufaure, 2011; Rao and Mitra, 2014; Rao and Mishra, 2016; Thorat, 2017).
+La deteccion de comunidades tiene por objetivo agrupar vertices de conformidad con las relaciones entre ellos
+para formar subgrafos fuertemente vinculados de todo el grafo. Dado que las redes generalmente se mode-
+lan como grafos, la deteccion de comunidades en redes multiples es tambien conocida como el problema de
+particion de grafo en la teorıa de grafos moderna (Wang etal., 2015).
+Resultados y discusion
+Para el cumplimento del objetivo general del presente trabajo se deben detectar las comunidades de desarro-
+lladores y actores mas inﬂuyentes en una red colaborativa donde se representan los paquetes del repositorio
+49
+Revista Cubana de Ciencias Informáticas 
+Vol. 13, No. 1, Enero-Marzo, 2019
+ISSN: 2227-1899 | RNPS: 2301
+Pág. 45-60
+http://rcci.uci.cu
+Grupo Editorial “Ediciones Futuro”
+Universidad de las Ciencias Informaticas. La Habana, Cuba
+rcci@uci.cu
+de los sistemas operativos libres y su relacion con los desarrolladores que intervienen en cada uno de ellos. El
+metodo propuesto sigue el procedimiento que se describe a continuacion:
+1. Se extraen los ﬁcheros de control de cambios o changelogs de los paquetes que se encuentran en el
+repositorio.
+2. Se extraen los datos utiles a partir de los ﬁcheros de control de cambios obtenidos del paso anterior,
+con un algoritmo de extraccion de datos que propone el autor del presente trabajo, para seleccionar los
+nombres de los paquetes y los desarrolladores que intervienen en cada uno.
+3. Se crea la red colaborativa a partir de los datos obtenidos.
+4. Se detectan las comunidades de desarrolladores y actores mas inﬂuyentes en la red.
+Un ﬁchero de control de cambios o changelog2 es un archivo en el que se encuentra la informacion en orden
+cronologico sobre los cambios realizados en cualquier proyecto de tipo informatico. El objetivo del changelog
+es mostrarle a usuarios y desarrolladores los cambios que sean implementados en las diferentes versiones del
+producto, ası como la informacion acerca de quien realizo dichos cambios para poder contactarlo si se detectan
+errores o fallas de seguridad. Los ﬁcheros tienen similar estructura lo cual permite que la salida sea siempre
+similar independientemente de la cantidad de entradas que se procesen.
+Los ﬁcheros de control de cambios se pueden obtener descomprimiendo los paquetes en formato “.deb” que se
+encuentran en el repositorio de las distribuciones GNU/Linux basadas en Debian. Para acceder a los repositorios
+es necesario conocer las direcciones web de los mismos. Las empresas encargadas de desarrollar distribuciones
+GNU/Linux tienen publicas estas direcciones, al tratarse de software libre pueden existir tambien repositorios
+locales propios de organizaciones o instituciones con intereses especıﬁcos.
+En el desarrollo de la propuesta de solucion se trabajo primeramente con el modulo “os” cuyas funciones per-
+miten el trabajo con directorios de carpetas y archivos. En el presente trabajo se empleo para crear directorios
+de carpetas con los que trabaja el metodo para descargar paquetes del repositorio, copiar los changelogs y
+generar los ﬁcheros o archivos con las redes colaborativas. Para el trabajo con las URL se utilizaron varias
+librerıas como “urllib.request” para acceder a estas y descargar los paquetes hacia directorios previamente
+creados de forma automatica. Otra librerıa que se empleo para trabajar con las URL fue “urllib3” para ob-
+tener direcciones con las que pudiera tratar la librerıa “BeautifulSoup”, esta ultima permitio obtener de una
+2https://es.wikipedia.org/wiki/Changelog
+50
+Revista Cubana de Ciencias Informáticas 
+Vol. 13, No. 1, Enero-Marzo, 2019
+ISSN: 2227-1899 | RNPS: 2301
+Pág. 45-60
+http://rcci.uci.cu
+Grupo Editorial “Ediciones Futuro”
+Universidad de las Ciencias Informaticas. La Habana, Cuba
+rcci@uci.cu
+pagina web todos los enlaces que la componen y de esta forma iterar recursivamente por todo el repositorio
+de paquetes y lograr la descarga de cada archivo.
+Tambien se emplearon modulos como “patoollib” para desempaquetar o extraer archivos “.deb” y dar paso a
+la utilizacion de las librerıas “shutil” y “gzip” para la descompresion de archivos. Los archivos descomprimidos
+fueron el archivo “data.tar.xz” y “changelog.Debian.gz” con el objetivo de acceder el ﬁchero de control de
+cambios de cada paquete, de igual forma se eliminaron los paquetes despues de ser extraıdos para ahorrar
+espacio en el disco duro de la computadora donde se ejecute el metodo.
+Para la extraccion de los changelogs se propone el pseudocodigo siguiente:
+Entrada del algoritmo: Direccion URL de un repositorio de sistema operativo de software libre.
+Salida del algoritmo: Directorio con los ﬁcheros de control de cambios de los paquetes del repositorio.
+1: Si URL == paquete
+2:
+Llamar metodo ddcr
+3: Fin
+4: Sino
+5:
+Obtener direcciones URL
+6:
+Para direcciones URL hacer
+7:
+Si direccion url == "../"
+8:
+Volver a ejecutar el metodo
+9:
+Fin
+10:
+Fin
+11: Fin
+El metodo ddcr es el encargado de descargar los paquetes del repositorio y para cada uno de estos realizar
+el proceso de desempaquetado, descompresion de los ﬁcheros comprimidos y extraccion del changelogs. Este
+metodo ademas copia los changelogs hacia un directorio que sirve como entrada para el proceso de extraccion
+de datos utiles.
+A partir de los ﬁcheros de control de cambios obtenidos de una direccion dentro del sistema operativo como
+“D:\prueba” (si se trabaja sobre cualquier distribucion de Windows) se extrajeron los datos utiles, para
+posteriormente adicionarlos a una lista. En la presente investigacion se deﬁnen como datos utiles:
+nombres de los paquetes. Ejemplo:“ﬁrefox (46.0+build5-0ubuntu0.14.04.2nova1)”.
+51
+Revista Cubana de Ciencias Informáticas 
+Vol. 13, No. 1, Enero-Marzo, 2019
+ISSN: 2227-1899 | RNPS: 2301
+Pág. 45-60
+http://rcci.uci.cu
+Grupo Editorial “Ediciones Futuro”
+Universidad de las Ciencias Informaticas. La Habana, Cuba
+rcci@uci.cu
+nombres de los desarrolladores de los paquetes. Ejemplo:“Juan Manuel Fuentes Rodrıguez”,“Chris Coul-
+son”,“Alexander Sack”.
+Python permite cargar archivos de texto usando para ello la funcion “open” a la que se le pasan como
+parametros el archivo o ruta del mismo y el modo en que se desea cargar el archivo (lectura, escritura, etc), la
+carga de los archivos es necesaria para poder realizar operaciones sobre el texto. Una vez cargado el texto, se
+procede a extraer los datos utiles, para esto es necesario trabajar con expresiones regulares y puede emplearse
+el modulo “Re” el cual contiene varias funciones para simpliﬁcar el codigo en este sentido.
+En la solucion se realizo primeramente un ﬁltro de las oraciones que contengan algun correo electronico
+teniendo en cuenta que estos tienen como singularidad la existencia del caracter “@”. La estructura deﬁnida
+de los changelogs facilita el uso de expresiones regulares aprovechando que los nombres de desarrolladores se
+encuentran en oraciones donde aparece al menos un correo electronico. Posteriormente se deﬁnio una expresion
+regular para identiﬁcar los datos utiles, para los nombres de desarrolladores la expresion es“[A-Z][a-z]+ [A-
+Z][a-z]”. Para identiﬁcar los nombres de paquetes tambien se deﬁnio una expresion regular pero no es necesario
+ﬁltrar el texto ya que este dato se encuentra al inicio de cada archivo, en la solucion propuesta se utiliza la
+expresion“\A\w+”.
+Se propone el siguiente pseudocodigo para la extraccion de datos utiles:
+Entrada del algoritmo: Directorio de changelogs.
+Salida del algoritmo: Lista con nombres de paquetes y desarrolladores de cada paquete.
+Aclaraciones: Se debe indicar la direccion donde se encuentran los ﬁcheros de control de cambios al algoritmo
+propuesto.
+1: Para cada fichero hacer
+2:
+Para cada oracion hacer
+3:
+Si caracter == "@"
+4:
+Si expresion regular desarrollador == palabras
+5:
+Agregar palabras a la lista de desarrolladores de un paquete
+6:
+Fin
+7:
+Fin
+8:
+Agregar lista de desarrolladores de un paquete a lista de todos los desarrolladores
+9:
+Fin
+10:
+Si expresion regular paquet e== palabras
+52
+Revista Cubana de Ciencias Informáticas 
+Vol. 13, No. 1, Enero-Marzo, 2019
+ISSN: 2227-1899 | RNPS: 2301
+Pág. 45-60
+http://rcci.uci.cu
+Grupo Editorial “Ediciones Futuro”
+Universidad de las Ciencias Informaticas. La Habana, Cuba
+rcci@uci.cu
+11:
+Agregar palabras a la lista de paquetes
+12:
+Fin el nombre del paquete
+13: Fin
+14: Para longitud de lista de todos los desarrolladores hacer
+15:
+Agregar lista de todos los desarrolladores + lista de paquetes a lista general
+16: Fin
+Para crear la red colaborativa a partir de la informacion obtenida en el proceso de extraccion de datos utiles
+descrito anteriormente. Los datos utiles procedentes del proceso anterior se obtienen como una lista de listas
+donde el primer elemento de cada lista es el nombre del paquete y los restantes elementos son el nombre de
+los desarrolladores asociados a este.
+Para el trabajo con grafos en Python se hace uso de la librerıa “NetworkX” con el objetivo de simpliﬁcar el
+trabajo y garantizar una buena calidad en la implementacion. Esta librerıa permitio disenar, crear, probar y
+exportar la red colaborativa a traves del trabajo con un conjunto de funciones implementadas en “NetworkX”.
+Se crearon dos redes, en la primera los nodos o vertices fueron cada nombre de paquete y desarrollador, donde
+las aristas que conectan dichos nodos establecen la relacion entre estos segun se obtienen los datos en la lista de
+entrada. La segunda red establece como nodos solamente a los desarrolladores siendo los paquetes asociados a
+estos los datos que permiten establecer las relaciones en la red mediante aristas. La librerıa en cuestion exporta
+las redes colaborativas en varios formatos como por ejemplo “gml” creandose de esta forma dos archivos de
+este tipo para poder ser posteriormente trabajados con Gephi.
+Para crear la red colaborativa el programador puede auxiliarse del siguiente pseudocodigo propuesto por el
+autor de la investigacion:
+Entrada del algoritmo: Lista de nombres de paquetes y desarrolladores.
+Salida del algoritmo: Fichero “.gml” con la red colaborativa.
+Aclaraciones: Se debe tener en cuenta que la lista con los nombres de paquetes y desarrolladores esta formada
+por sublistas.
+1: Para lista de todos los desarrolladores hacer
+2:
+Agregar desarrolladores a la lista de nodos de la biparticion 0
+3: Fin
+4: Para lista de paquetes hacer
+5:
+Agregar paquetes a la lista de nodos de la biparticion 1
+53
+Revista Cubana de Ciencias Informáticas 
+Vol. 13, No. 1, Enero-Marzo, 2019
+ISSN: 2227-1899 | RNPS: 2301
+Pág. 45-60
+http://rcci.uci.cu
+Grupo Editorial “Ediciones Futuro”
+Universidad de las Ciencias Informaticas. La Habana, Cuba
+rcci@uci.cu
+6: Fin
+7: Para A en lista de todos los desarrolladores hacer
+8:
+Para B en A hacer
+9:
+Agregar la relacion de paquetes a desarrolladores a la lista de aristas
+10:
+Fin
+11: Fin
+12: Crear archivo "gml" para la red paquete-desarrollador
+13: Para longitud de lista de todos los desarrolladores hacer
+14:
+Agregar desarrolladores a la lista de nodos con el atributo paquete
+15: Fin
+16: Para A en lista de todos los desarrolladores hacer
+17:
+Para B en longitud de A hacer
+18:
+Para C en A hacer
+19:
+Agregar la relacion entre desarrolladores a la lista de aristas
+20:
+Fin
+21:
+Fin
+22: Fin
+23: Crear archivo "gml" para la red de desarrolladores
+Una vez que se tiene la red colaborativa (ﬁchero gml) a partir de los datos extraıdos del repositorios analizado,
+se procede a su analisis y visualizacion. La ﬁgura 1 muestra un esquema de los pasos a seguir para la obtencion
+de las comunidades y actores mas inﬂuyentes.
+Figura 1: Esquema para la deteccion de comunidades y actores mas inﬂuyentes en la red colaborativa (Fuente:
+Elaboracion propia)
+54
+Revista Cubana de Ciencias Informáticas 
+Vol. 13, No. 1, Enero-Marzo, 2019
+ISSN: 2227-1899 | RNPS: 2301
+Pág. 45-60
+http://rcci.uci.cu
+Grupo Editorial “Ediciones Futuro”
+Universidad de las Ciencias Informaticas. La Habana, Cuba
+rcci@uci.cu
+El analisis de la red colaborativa se realizo con la herramienta profesional para la visualizacion de redes Gephi.
+El analisis con la herramienta antes mencionada permite observar con mayor detalle las relaciones que se
+presentan en la red colaborativa, moverse por los nodos o vertices con mayor facilidad, ası como ajustar la
+forma en la que se presentan estos sin danar las relaciones. Gephi permite la deteccion de comunidades y
+actores mas inﬂuyentes a partir de las medidas y algoritmos previamente mencionadas.
+La identiﬁcacion de los desarrolladores por cada paquete dentro de la red colaborativa ayuda a una mejor
+visualizacion de esta como se muestra en la ﬁgura 2:
+Figura 2: Red colaborativa con los desarrolladores de paquetes identiﬁcados (Fuente: Elaboracion propia)
+De este graﬁco podemos tener una idea de la cantidad de personas que colaboran en el desarrollo de los
+paquetes. De la imagen podemos concluir que la mayor colaboracion se encuentra en el desarrollo de Firefox,
+mientras que solamente dos personas mantienen el paquete vlan. Este hecho nos permite identiﬁcar que este
+paquete puede quedar desatendido si estos dos desarrolladores abandonan el proyecto.
+Tambien puede visualizarse la red representandola como un grafo bipartido donde los paquetes del repositorio
+del sistema operativo libre representan una biparticion del grafo original y los desarrolladores otra, esto permite
+una mejor vista de la relacion paquete-desarrollador. No es mas que otra forma de representar la vista anterior,
+lo que en esta, tenemos ademas del nombre de los paquetes, el nombre de los desarrolladores. La ﬁgura 3
+representa los paquetes del repositorio con el color verde (0) y los desarrolladores con el color rosa (1).
+55
+Revista Cubana de Ciencias Informáticas 
+Vol. 13, No. 1, Enero-Marzo, 2019
+ISSN: 2227-1899 | RNPS: 2301
+Pág. 45-60
+http://rcci.uci.cu
+Grupo Editorial “Ediciones Futuro”
+Universidad de las Ciencias Informaticas. La Habana, Cuba
+rcci@uci.cu
+Figura 3: Grafo bipartido de nombres de paquetes y desarrolladores (Fuente: Elaboracion propia)
+Posteriormente podemos pasar a aplicar algunas de las medidas de centralidad seleccionadas, para identiﬁcar
+cual o cuales son los desarrolladores mas inﬂuyentes o de mayor impacto en la comunidad.
+Basandose en la medida de centralidad se pudieron identiﬁcar los actores mas inﬂuyentes en la red. La ﬁgura
+4 muestra como quedarıa la red al aplicarle la medida de intermediacion que establece que los nodos mas
+importantes son aquellos que conectan otros nodos.
+Luego de aplicarle todos los criterios expuestos a la red, esta quedarıa ﬁnalmente como se muestra en la ﬁgura
+5:
+En esta ultima imagen, podemos ver como Colin Watson es una persona altamente importante e inﬂuyente
+dentro de la red formada, ya que conecta a varios desarrolladores de diferentes paquetes. De este grafo,
+podemos identiﬁcar a los principales desarrolladores de cada uno de los paquetes analizados, por lo que serıan
+las personas a contactar por los usuarios que quieran colaborar en el desarrollo o mantenimiento de algunos
+de estos paquetes.
+56
+Revista Cubana de Ciencias Informáticas 
+Vol. 13, No. 1, Enero-Marzo, 2019
+ISSN: 2227-1899 | RNPS: 2301
+Pág. 45-60
+http://rcci.uci.cu
+Grupo Editorial “Ediciones Futuro”
+Universidad de las Ciencias Informaticas. La Habana, Cuba
+rcci@uci.cu
+Figura 4: Desarrolladores mas importantes de la red colaborativa (Fuente: Elaboracion propia)
+Figura 5: Red colaborativa con todos los criterios aplicados (Fuente: Elaboracion propia)
+De forma general, se pueden extraer algunas conclusiones de los datos recopilados. Cuantos mas desarrolladores
+tenga un proyecto, mayor sera la centralidad promedio. La centralidad promedio sigue una lınea muy de cerca,
+lo que sugiere que las redes tienen una estructura similar. La mayorıa de los desarrolladores tienen un pequeno
+ındice de centralidad, mientras que solo unos pocos desarrolladores ocupan un lugar central en los proyectos.
+57
+Revista Cubana de Ciencias Informáticas 
+Vol. 13, No. 1, Enero-Marzo, 2019
+ISSN: 2227-1899 | RNPS: 2301
+Pág. 45-60
+http://rcci.uci.cu
+Grupo Editorial “Ediciones Futuro”
+Universidad de las Ciencias Informaticas. La Habana, Cuba
+rcci@uci.cu
+Estos son generalmente los llamados “community manager” y/o lideres de proyectos.
+Conclusiones
+Al concluir la presente investigacion se pueden arribar a las siguientes conclusiones que dan solucion al objetivo
+general de la misma:
+1. La deteccion de comunidades permitio determinar grupos que se establecen en la red a partir de las
+relaciones entre desarrolladores y las medidas de centralidad permitieron identiﬁcar los actores mas
+inﬂuyentes dentro de la red.
+2. Se obtuvo un metodo implementado en Python que facilito: la busqueda de paquetes en repositorios de
+sistemas operativos libres, la extraccion de los ﬁcheros de control de cambios de cada uno de estos, la
+extraccion de los nombres de paquetes y sus desarrolladores, ası como la creacion de una red colaborativa
+a partir de la relacion entre desarrolladores y otra red con la relacion paquete ? desarrollador.
+3. A partir del trabajo con la herramienta Gephi se pudieron visualizar las redes colaborativas y proceder
+a la deteccion de comunidades y actores mas inﬂuyentes en la red colaborativa permitiendo fortalecer la
+colaboracion entre equipos de desarrollo.
+4.
+La validacion realizada a traves de pruebas unitarias y de aceptacion permitieron corregir las no confor-
+midades detectadas, probando la calidad de la solucion propuesta.
+En un futuro, se pretende optimizar los metodos propuestos para su funcionamiento y ejecucion en paralelo.
+Ademas estudiar la factibilidad de usar otras tecnicas de extraccion de datos propias del procesamiento de
+lenguaje natural, como el reconocimiento de entidades, para reﬁnar el proceso de identiﬁcacion de desarrolla-
+dores.
+Referencias
+Aguirre, J. L. (2014). Actores, relaciones y estructuras: introduccion al analisis de redes sociales. Hologramatica,
+20(2):161–187.
+Analytics, C. (2015). Anaconda scientiﬁc python distribution.
+Beazley, D. and Jones, B. K. (2013). Python Cookbook: Recipes for Mastering Python 3. .O’Reilly Media, Inc.”.
+58
+Revista Cubana de Ciencias Informáticas 
+Vol. 13, No. 1, Enero-Marzo, 2019
+ISSN: 2227-1899 | RNPS: 2301
+Pág. 45-60
+http://rcci.uci.cu
+Grupo Editorial “Ediciones Futuro”
+Universidad de las Ciencias Informaticas. La Habana, Cuba
+rcci@uci.cu
+Carolan, B. V. (2013). Social network analysis and education: Theory, methods & applications. Sage Publica-
+tions.
+Cherven, K. (2015). Mastering Gephi network visualization. Packt Publishing Ltd.
+Cuvelier, E. and Aufaure, M.-A. (2011). Graph mining and communities detection. In European Business
+Intelligence Summer School, pages 117–138. Springer.
+Ercetin, S. S. and Neyisci, N. B. (2016). Social network analysis: A brief introduction to the theory. In Chaos,
+Complexity and Leadership 2014, pages 167–171. Springer.
+Farooq, A., Joyia, G. J., Uzair, M., and Akram, U. (2018). Detection of inﬂuential nodes using social networks
+analysis based on network metrics. In Computing, Mathematics and Engineering Technologies (iCoMET),
+2018 International Conference on, pages 1–6. IEEE.
+Freeman, L. C. (1977). A set of measures of centrality based on betweenness. Sociometry, pages 35–41.
+Freeman, L. C. (1978). Centrality in social networks conceptual clariﬁcation. Social networks, 1(3):215–239.
+Gonzalez Duque, R. (2014). Python para todos. Creative Commons Reconocimiento, 2.
+Hagberg, A., Schult, D., and Swart, P. (2016). Networkx framework.
+Hagberg, A., Swart, P., and S Chult, D. (2008). Exploring network structure, dynamics, and function using
+networkx. Technical report, Los Alamos National Lab.(LANL), Los Alamos, NM (United States).
+Heymann, S. (2017). Gephi. Encyclopedia of social network analysis and mining, pages 1–14.
+Kazienko, P. (2012). Social network analysis: Selected methods and applications. In DATESO, page 151.
+Citeseer.
+Khokhar, D. (2015). Gephi cookbook. Packt Publishing Ltd.
+Kuz, A., Falco, M., and Giandini, R. (2016). Analisis de redes sociales: un caso practico. Computacion y
+Sistemas, 20(1):89–106.
+Lozano, M., Garcıa-Martınez, C., Rodrıguez, F. J., and Trujillo Mendoza, H. M. (2016). Optimizacion de
+ataques a redes complejas mediante un algoritmo de colonias de abejas artiﬁciales. In Actas de la XVII
+Conferencia de la Asociacion Espanola Para la Inteligencia Artiﬁcial, page 151. Ediciones Universidad de
+Salamanca.
+O’Malley, A. J. and Onnela, J.-P. (2017). Introduction to social network analysis. Methods in Health Services
+Research, pages 1–44.
+59
+Revista Cubana de Ciencias Informáticas 
+Vol. 13, No. 1, Enero-Marzo, 2019
+ISSN: 2227-1899 | RNPS: 2301
+Pág. 45-60
+http://rcci.uci.cu
+Grupo Editorial “Ediciones Futuro”
+Universidad de las Ciencias Informaticas. La Habana, Cuba
+rcci@uci.cu
+Perez Beltran, J. E., Valerio Urena, G., and Rodrıguez-Aceves, L. (2015). Analisis de redes sociales para el
+estudio de la produccion intelectual en grupos de investigacion. Perﬁles educativos, 37(150):124–142.
+Peyro Outeirino, M. B. (2015). Conectados por redes sociales: Introduccion al analisis de redes sociales y casos
+practicos. Redes. Revista Hispana para el Analisis de Redes Sociales, 26(2):236–241.
+Rao, B. and Mishra, S. (2016). Detection of inﬂuential communities and members in a community graph
+of villages using graph mining techniques.
+International Journal of Computer Science and Information
+Security, 14(5):85.
+Rao, B. and Mitra, A. (2014). A new approach for detection of common communities in a social network using
+graph mining techniques. In High Performance Computing and Applications (ICHPCA), 2014 International
+Conference on, pages 1–6. IEEE.
+Riondato, M. and Upfal, E. (2018). Abra: Approximating betweenness centrality in static and dynamic graphs
+with rademacher averages. ACM Transactions on Knowledge Discovery from Data (TKDD), 12(5):61.
+Sabidussi, G. (1966). The centrality index of a graph. Psychometrika, 31(4):581–603.
+Summerﬁeld, M. (2010). Programming in Python 3: a complete introduction to the Python language. Addison-
+Wesley Professional.
+Tale, S. (2017). Python 3: The ultimate beginners guide for python 3 programming.
+Thorat, A. R. (2017). Detection of inﬂuential communities and members in a community using graph mining
+techniques. Imperial Journal of Interdisciplinary Research, 3(3).
+Trudeau, R. J. (2013). Introduction to graph theory. Courier Corporation.
+Wang, M., Wang, C., Yu, J. X., and Zhang, J. (2015).
+Community detection in social networks: an in-
+depth benchmarking study with a procedure-oriented framework. Proceedings of the VLDB Endowment,
+8(10):998–1009.
+Wasserman, S. and Faust, K. (1994). Social network analysis: Methods and applications, volume 8. Cambridge
+university press.
+60
+Revista Cubana de Ciencias Informáticas 
+Vol. 13, No. 1, Enero-Marzo, 2019
+ISSN: 2227-1899 | RNPS: 2301
+Pág. 45-60
+http://rcci.uci.cu
+Grupo Editorial “Ediciones Futuro”
+Universidad de las Ciencias Informaticas. La Habana, Cuba
+rcci@uci.cu
+
